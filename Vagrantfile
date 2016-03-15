@@ -1,20 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$script = <<SHELL
-  echo "StrictHostKeyChecking no" > ~/.ssh/config
-  echo "UserKnownHostsFile=/dev/null no" >> ~/.ssh/config
-  apt-get install -y software-properties-common git
-  apt-add-repository -y ppa:ansible/ansible
-  apt-get update && apt-get install -y ansible
-SHELL
-
 Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
   config.vm.box = "ubuntu/trusty64"
   config.vm.box_check_update = false
   config.vm.synced_folder "./", "/home/vagrant/sicp"
-  config.vm.provision "shell", inline: $script
+  # workaround от ребят из hashicorp, для версии 1.8.1
+  config.vm.provision "shell" do |s|
+    s.inline = '[[ ! -f $1 ]] || grep -F -q "$2" $1 || sed -i "/__main__/a \\    $2" $1'
+    s.args = ['/usr/bin/ansible-galaxy', "if sys.argv == ['/usr/bin/ansible-galaxy', '--help']: sys.argv.insert(1, 'info')"]
+  end
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "cm/vagrant.yml"
   end
