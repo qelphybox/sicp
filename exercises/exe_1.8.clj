@@ -18,11 +18,11 @@
                     prevguess))
     0.000001))
 
-(defn sqrt-iter
+(defn cube
   [x]
   (loop [prevguess 0 guess 1.0]
     (if (good-enough? prevguess guess)
       guess
       (recur guess (improve guess x)))))
 
-(println (sqrt-iter 8))
+(println (cube 8))
