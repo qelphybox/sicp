@@ -1,3 +1,5 @@
+(ns sicp.chapter01.ex1-03)
+
 (defn solution
   [a b c]
   (let [square (fn [x] (* x x))

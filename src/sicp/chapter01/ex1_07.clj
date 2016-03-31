@@ -1,3 +1,5 @@
+(ns sicp.chapter01.ex1-07)
+
 (defn average
   [x y]
   (/ (+ x y) 2))
@@ -19,7 +21,7 @@
 (defn sqrt
   [x]
   (loop [guess 1.0]
-    (if (good-enough? guess)
+    (if (good-enough? guess x)
       guess
       (recur (improve guess x)))))
 

@@ -1,3 +1,5 @@
+(ns sicp.chapter01.ex1-08)
+
 (defn average
   [x y]
   (/ (+ x y) 2))
@@ -24,5 +26,3 @@
     (if (good-enough? prevguess guess)
       guess
       (recur guess (improve guess x)))))
-
-(println (cube 8))
